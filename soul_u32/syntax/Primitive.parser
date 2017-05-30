@@ -1,0 +1,130 @@
+// =================================
+// Copyright (c) 2017 Seppo Laakko
+// Distributed under the MIT license
+// =================================
+
+[hpp]#include <soul_u32/parsing/Primitive.hpp>
+[hpp]#include <soul_u32/parsing/Keyword.hpp>
+[cpp]#include <soul_u32/syntax/Element.hpp>
+
+namespace soul.syntax
+{
+    grammar PrimitiveGrammar
+    {
+        using stdlib.char;
+        using stdlib.string;
+        using stdlib.escape;
+        using stdlib.int;
+        using stdlib.uint;
+        using stdlib.hexuint;
+        using ElementGrammar.QualifiedId;
+        using ElementGrammar.StringArray;
+
+        Primitive: soul::parsing::Parser*
+                        ::= Char{ value = Char; }
+                        |   String{ value = String; }
+                        |   CharSet{ value = CharSet; }
+                        |   Keyword{ value = Keyword; }
+                        |   KeywordList{ value = KeywordList; }
+                        |   Empty{ value = Empty; }
+                        |   Space{ value = Space; }
+                        |   AnyChar{ value = AnyChar; }
+                        |   Letter{ value = Letter; }
+                        |   Digit{ value = Digit; }
+                        |   HexDigit{ value = HexDigit; }
+                        |   Punctuation{ value = Punctuation; }
+                        |   Range{ value = Range; }
+                        ;
+
+        Char: soul::parsing::Parser*
+                        ::= char:chr{ value = new CharParser(chr); }
+                        ;
+
+        String: soul::parsing::Parser*
+                        ::= string:str{ value = new StringParser(str); }
+                        ;
+
+        CharSet(var bool inverse, var std::u32string s): soul::parsing::Parser*
+                        ::= token
+                            (   '['
+                                ('^'{ inverse = true; })?
+                                (CharSetRange{ s.append(CharSetRange); })*
+                                ']'!
+                            )
+                            {
+                                value = new CharSetParser(s, inverse);
+                            }
+                            ;
+
+        CharSetRange: std::u32string
+                            ::= CharSetChar:first
+                            ('-' CharSetChar:last
+                                {
+                                    value.append(1, first);
+                                    value.append(1, '-');
+                                    value.append(1, last);
+                                }
+                            |   empty{ value.append(1, first); }
+                            )
+                            ;
+
+        CharSetChar: char32_t
+                            ::= [^\\\]]{ value = *matchBegin; }
+                            |   escape{ value = escape; }
+                            ;
+
+        Keyword: soul::parsing::Parser*
+                            ::= keyword("keyword") '('! KeywordBody! ')'!{ value = KeywordBody; }
+                            ;
+
+        KeywordBody: soul::parsing::Parser*
+                            ::= string:str
+                            (   ',' QualifiedId:continuation!{ value = new KeywordParser(str, continuation); }
+                            |   empty{ value = new KeywordParser(str); }
+                            )
+                            ;
+
+        KeywordList: soul::parsing::Parser*
+                            ::= keyword("keyword_list") '('! KeywordListBody! ')'!{ value = KeywordListBody; }
+                            ;
+
+        KeywordListBody(var std::vector<std::u32string> keywords): soul::parsing::Parser*
+                            ::= QualifiedId:selector! ','! StringArray(&keywords)!{ value = new KeywordListParser(selector, keywords); }
+                            ;
+
+        Empty: soul::parsing::Parser*
+                            ::= keyword("empty"){ value = new EmptyParser(); }
+                            ;
+
+        Space: soul::parsing::Parser*
+                            ::= keyword("space"){ value = new SpaceParser(); }
+                            ;
+
+        AnyChar: soul::parsing::Parser*
+                            ::= keyword("anychar"){ value = new AnyCharParser(); }
+                            ;
+
+        Letter: soul::parsing::Parser*
+                            ::= keyword("letter"){ value = new LetterParser(); }
+                            ;
+
+        Digit: soul::parsing::Parser*
+                            ::= keyword("digit"){ value = new DigitParser(); }
+                            ;
+
+        HexDigit: soul::parsing::Parser*
+                            ::= keyword("hexdigit"){ value = new HexDigitParser(); }
+                            ;
+
+        Punctuation: soul::parsing::Parser*
+                            ::= keyword("punctuation"){ value = new PunctuationParser(); }
+                            ;
+
+        Range: soul::parsing::Parser*
+                            ::= (keyword("range") '('! CodePoint:s! ','! CodePoint:e! ')'!){ value = new RangeParser(s, e); }
+                            ;
+
+        CodePoint: uint32_t ::= token('x' hexuint:x{ value = x; }) | uint:d{ value = d; }
+                            ;
+    }
+}

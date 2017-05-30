@@ -1,0 +1,49 @@
+// =================================
+// Copyright (c) 2017 Seppo Laakko
+// Distributed under the MIT license
+// =================================
+
+[hpp]#include <soul_u32/parsing/Scope.hpp>
+[hpp]#include <soul_u32/parsing/Parser.hpp>
+[cpp]#include <soul_u32/parsing/Composite.hpp>
+[cpp]#include <soul_u32/syntax/Primary.hpp>
+
+namespace soul.syntax
+{
+    grammar CompositeGrammar
+    {
+        using PrimaryGrammar.Primary;
+
+        Alternative(soul::parsing::Scope* enclosingScope): soul::parsing::Parser*
+                        ::= Sequence(enclosingScope):left{ value = left; } ('|' Sequence(enclosingScope):right!{ value = new AlternativeParser(value, right); })*
+                        ;
+
+        Sequence(soul::parsing::Scope* enclosingScope): soul::parsing::Parser*
+                        ::= Difference(enclosingScope):left{ value = left; } (Difference(enclosingScope):right{ value = new SequenceParser(value, right); })*
+                        ;
+
+        Difference(soul::parsing::Scope* enclosingScope): soul::parsing::Parser*
+                        ::= ExclusiveOr(enclosingScope):left{ value = left; } ('-' ExclusiveOr(enclosingScope):right!{ value = new DifferenceParser(value, right); })*
+                        ;
+
+        ExclusiveOr(soul::parsing::Scope* enclosingScope): soul::parsing::Parser*
+                        ::= Intersection(enclosingScope):left{ value = left; } ('^' Intersection(enclosingScope):right!{ value = new ExclusiveOrParser(value, right); })*
+                        ;
+
+        Intersection(soul::parsing::Scope* enclosingScope): soul::parsing::Parser*
+                        ::= List(enclosingScope):left{ value = left; } ('&' List(enclosingScope):right{ value = new IntersectionParser(value, right); })*
+                        ;
+
+        List(soul::parsing::Scope* enclosingScope): soul::parsing::Parser* 
+                        ::= Postfix(enclosingScope):left{ value = left; } ('%' Postfix(enclosingScope):right{ value = new ListParser(value, right); })?
+                        ;
+
+        Postfix(soul::parsing::Scope* enclosingScope): soul::parsing::Parser*
+                        ::= Primary(enclosingScope){ value = Primary; }
+                        (   '*'{ value = new KleeneStarParser(value); }
+                        |   '+'{ value = new PositiveParser(value); }
+                        |   '?'{ value = new OptionalParser(value); }
+                        )?
+                        ;
+    }
+}

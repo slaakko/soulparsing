@@ -1,0 +1,75 @@
+// =================================
+// Copyright (c) 2017 Seppo Laakko
+// Distributed under the MIT license
+// =================================
+
+[hpp]#include <soul_u32/parsing/Scope.hpp>
+[hpp]#include <soul_u32/parsing/Grammar.hpp>
+[cpp]#include <soul_u32/parsing/Rule.hpp>
+[cpp]#include <soul_u32/codedom/Type.hpp>
+[cpp]#include <soul_u32/code/Declarator.hpp>
+
+namespace soul.syntax
+{
+    grammar ElementGrammar
+    {
+        using stdlib.qualified_id;
+        using stdlib.identifier;
+        using stdlib.string;
+        using soul.code.DeclaratorGrammar.TypeId;
+        using soul.code.DeclaratorGrammar.Declarator;
+
+        RuleLink(soul::parsing::Grammar* grammar)
+                            ::= (keyword("using") identifier:aliasName '=' qualified_id:ruleName ';')
+                                { 
+                                    RuleLink* link(new RuleLink(aliasName, grammar, ruleName)); 
+                                    link->SetSpan(span); 
+                                    grammar->AddRuleLink(link); 
+                                }
+                            |   (keyword("using") qualified_id ';')
+                                { 
+                                    RuleLink* link(new RuleLink(grammar, qualified_id)); 
+                                    link->SetSpan(span);
+                                    grammar->AddRuleLink(link);  
+                                }
+                            ;
+
+        Signature(soul::parsing::Rule* rule)
+                            ::= ParameterList(rule)? ReturnType(rule)?
+                            ;
+
+        ParameterList(soul::parsing::Rule* rule)
+                            ::= '(' ((Variable(rule) | Parameter(rule)) % ',') ')'!
+                            ;
+
+        Variable(soul::parsing::Rule* rule)
+                            ::= keyword("var") TypeId Declarator{ rule->AddLocalVariable(AttrOrVariable(TypeId->ToString(), Declarator)); delete TypeId; }
+                            ;
+
+        Parameter(soul::parsing::Rule* rule)
+                            ::= TypeId Declarator{ rule->AddInheritedAttribute(AttrOrVariable(TypeId->ToString(), Declarator)); delete TypeId; }
+                            ;
+
+        ReturnType(soul::parsing::Rule* rule)
+                            ::= (':' - "::") TypeId{ rule->SetValueTypeName(TypeId->ToString()); delete TypeId; }
+                            ;
+
+        Keyword             ::= keyword_list(identifier, 
+                                [   "using", "grammar", "start", "end", "skip", "token", "keyword", "keyword_list", 
+                                    "empty", "space", "anychar", "letter", "digit", "hexdigit", "punctuation", "var", "range"
+                                ])
+                            ;
+
+        Identifier: std::u32string
+                            ::= (identifier - Keyword){ value = std::u32string(matchBegin, matchEnd); }
+                            ;
+
+        QualifiedId: std::u32string
+                            ::= token(Identifier:first('.' Identifier:rest)*){ value = std::u32string(matchBegin, matchEnd); }
+                            ;
+
+        StringArray(std::vector<std::u32string>* array)
+                            ::= '[' (string:str{ array->push_back(str); } % ',') ']'!
+                            ;
+    }
+}

@@ -1,0 +1,115 @@
+﻿// =================================
+// Copyright (c) 2017 Seppo Laakko
+// Distributed under the MIT license
+// =================================
+
+[cpp]#include <soul_u32/code/Declarator.hpp>
+[cpp]#include <soul_u32/code/Identifier.hpp>
+[cpp]#include <soul_u32/code/Expression.hpp>
+[hpp]#include <soul_u32/codedom/Declaration.hpp>
+[cpp]#include <soul_u32/codedom/Type.hpp>
+
+namespace soul.code
+{
+    [cpp]using namespace soul::codedom;
+
+    grammar DeclarationGrammar
+    {
+        using stdlib.identifier;
+        using DeclaratorGrammar.InitDeclaratorList;
+        using DeclaratorGrammar.TypeId;
+        using IdentifierGrammar.Identifier;
+        using IdentifierGrammar.QualifiedId;
+        using ExpressionGrammar.AssignmentExpression;
+        
+        BlockDeclaration: soul::codedom::CppObject*
+                        ::= NamespaceAliasDefinition{ value = NamespaceAliasDefinition; }
+                        |   UsingDirective{ value = UsingDirective; }
+                        |   UsingDeclaration{ value = UsingDeclaration; }
+                        |   SimpleDeclaration{ value = SimpleDeclaration; }
+                        ;
+                                    
+        SimpleDeclaration(var std::unique_ptr<SimpleDeclaration> sd): soul::codedom::SimpleDeclaration*
+                        ::= empty{ sd.reset(new SimpleDeclaration()); }
+                            (DeclSpecifierSeq(sd.get())? (InitDeclaratorList{ sd->SetInitDeclaratorList(InitDeclaratorList); })? ';'){ value = sd.release(); }
+                        ;
+                                        
+        DeclSpecifierSeq(soul::codedom::SimpleDeclaration* declaration)
+                        ::= (DeclSpecifier{ declaration->Add(DeclSpecifier); })+ 
+                        |   TypeName{ declaration->Add(TypeName); }
+                        ;
+                                        
+        DeclSpecifier: soul::codedom::DeclSpecifier*
+                        ::= StorageClassSpecifier{ value = StorageClassSpecifier; }
+                        |   TypeSpecifier{ value = TypeSpecifier; }
+                        |   Typedef{ value = Typedef; }
+                        ;
+                                        
+        StorageClassSpecifier: soul::codedom::StorageClassSpecifier*
+                        ::= keyword_list(identifier, 
+                            ["auto", "register", "static", "extern", "mutable"])
+                        {
+                            value = new StorageClassSpecifier(std::u32string(matchBegin, matchEnd));
+                        }
+                        ;
+                                        
+        TypeSpecifier: soul::codedom::TypeSpecifier*
+                        ::= SimpleTypeSpecifier{ value = SimpleTypeSpecifier; }
+                        |   CVQualifier{ value = CVQualifier; }
+                        ;
+
+        SimpleTypeSpecifier: soul::codedom::TypeSpecifier*
+                        ::= keyword_list(identifier,
+                            ["char", "wchar_t", "bool", "short", "int", "long", "signed", "unsigned", "float", "double", "void"])
+                            {
+                                value = new TypeSpecifier(std::u32string(matchBegin, matchEnd));
+                            }
+                        ;
+                        
+        TypeName: soul::codedom::TypeName*
+                        ::= QualifiedId{ value = new soul::codedom::TypeName(std::u32string(matchBegin, matchEnd)); }('<'{ value->IsTemplate() = true; } TemplateArgumentList(value) '>')?
+                        ;
+                        
+        TemplateArgumentList(soul::codedom::TypeName* typeName)
+                        ::= TemplateArgument{ typeName->AddTemplateArgument(TemplateArgument); } % ','
+                        ;
+                        
+        TemplateArgument: soul::codedom::CppObject*
+                        ::= TypeId{ value = TypeId; }
+                        |   AssignmentExpression{ value = AssignmentExpression; }
+                        ;
+    
+        Typedef: soul::codedom::DeclSpecifier*
+                        ::= keyword("typedef")
+                        {
+                            value = new Typedef(); 
+                        }
+                        ;
+
+        CVQualifier: soul::codedom::TypeSpecifier*
+                        ::= keyword("const"){ value = new Const(); }
+                        |   keyword("volatile"){ value = new Volatile(); }
+                        ;
+                        
+        NamespaceAliasDefinition: soul::codedom::UsingObject*
+                        ::= keyword("namespace") Identifier '=' QualifiedId ';'
+                        {
+                            value = new NamespaceAlias(Identifier, QualifiedId); 
+                        }
+                        ;
+                        
+        UsingDeclaration: soul::codedom::UsingObject*
+                        ::= keyword("using") QualifiedId ';'
+                        {
+                            value = new UsingDeclaration(QualifiedId); 
+                        }
+                        ;
+                        
+        UsingDirective: soul::codedom::UsingObject*
+                        ::= keyword("using") keyword("namespace") QualifiedId ';'
+                        {
+                            value = new UsingDirective(QualifiedId); 
+                        }
+                        ;
+    }
+}

@@ -1,0 +1,31 @@
+// =================================
+// Copyright (c) 2017 Seppo Laakko
+// Distributed under the MIT license
+// =================================
+
+[cpp]#include <soul_u32/syntax/Element.hpp>
+[cpp]#include <soul_u32/syntax/Composite.hpp>
+[hpp]#include <soul_u32/parsing/Rule.hpp>
+
+namespace soul.syntax
+{
+    grammar RuleGrammar
+    {
+        using ElementGrammar.Identifier;
+        using ElementGrammar.Signature;
+        using CompositeGrammar.Alternative;
+        using stdlib.string;
+
+        Rule(soul::parsing::Scope* enclosingScope): soul::parsing::Rule*
+                    ::= RuleHeader(enclosingScope){ value = RuleHeader; } "::=" RuleBody(value)
+                    ;
+
+        RuleHeader(soul::parsing::Scope* enclosingScope): soul::parsing::Rule*
+                    ::= Identifier:name{value = new Rule(name, enclosingScope); value->SetSpan(span); } Signature(value)
+                    ;
+
+        RuleBody(soul::parsing::Rule* rule)
+                    ::= (Alternative(rule->GetScope()):definition! ';'!){ rule->SetDefinition(definition); }
+                    ;
+    }
+}

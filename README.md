@@ -1,5 +1,4 @@
 Soul Parsing Library
 ====================
 
-Soul Parsing is a C++ parsing library.
-
+Soul Parsing project contains a C++ parser generator tool and supporting parsing library.
