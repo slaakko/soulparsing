@@ -11,7 +11,7 @@
 
 namespace soul { namespace codedom {
 
-using namespace soul::util;
+using namespace soul::unicode;
 
 struct OperatorHash
 {

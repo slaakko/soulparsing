@@ -13,6 +13,7 @@
 namespace soul { namespace parsing {
 
 using namespace soul::util;
+using namespace soul::unicode;
 
 Scope::Scope(const std::u32string& name_, Scope* enclosingScope_): ParsingObject(name_, enclosingScope_), fullNameComputed(false)
 {

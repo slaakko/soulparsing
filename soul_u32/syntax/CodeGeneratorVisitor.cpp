@@ -16,8 +16,8 @@
 namespace soul { namespace syntax {
 
 using namespace soul::parsing;
-using soul::util::ToUtf8;
-using soul::util::ToUtf32;
+using soul::unicode::ToUtf8;
+using soul::unicode::ToUtf32;
 using soul::util::StringStr;
 using soul::util::CharStr;
 using soul::util::Replace;
@@ -543,6 +543,11 @@ void CodeGeneratorVisitor::Visit(KeywordListParser& parser)
     cppFormatter.Write("new soul::parsing::KeywordListParser(ToUtf32(\"" + ToUtf8(StringStr(parser.SelectorRuleName())) + "\"), " + ToUtf8(parser.KeywordVecName()) + ")");
 }
 
+void CodeGeneratorVisitor::Visit(RangeParser& parser)
+{
+    cppFormatter.Write("new soul::parsing::RangeParser(" + std::to_string(parser.Start()) + ", " + std::to_string(parser.End()) + ")");
+}
+
 void CodeGeneratorVisitor::Visit(EmptyParser& parser)
 {
     cppFormatter.Write("new soul::parsing::EmptyParser()");
@@ -558,6 +563,36 @@ void CodeGeneratorVisitor::Visit(LetterParser& parser)
     cppFormatter.Write("new soul::parsing::LetterParser()");
 }
 
+void CodeGeneratorVisitor::Visit(UpperLetterParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::UpperLetterParser()");
+}
+
+void CodeGeneratorVisitor::Visit(LowerLetterParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::LowerLetterParser()");
+}
+
+void CodeGeneratorVisitor::Visit(TitleLetterParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::TitleLetterParser()");
+}
+
+void CodeGeneratorVisitor::Visit(ModifierLetterParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::ModifierLetterParser()");
+}
+
+void CodeGeneratorVisitor::Visit(OtherLetterParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::OtherLetterParser()");
+}
+
+void CodeGeneratorVisitor::Visit(CasedLetterParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::CasedLetterParser()");
+}
+
 void CodeGeneratorVisitor::Visit(DigitParser& parser)
 {
     cppFormatter.Write("new soul::parsing::DigitParser()");
@@ -568,19 +603,189 @@ void CodeGeneratorVisitor::Visit(HexDigitParser& parser)
     cppFormatter.Write("new soul::parsing::HexDigitParser()");
 }
 
+void CodeGeneratorVisitor::Visit(MarkParser& parser)
+{
+    cppFormatter.Write("new soul::parsing::MarkParser()");
+}
+
+void CodeGeneratorVisitor::Visit(NonspacingMarkParser& parser)
+{
+    cppFormatter.Write("new soul::parsing::NonspacingMarkParser()");
+}
+
+void CodeGeneratorVisitor::Visit(SpacingMarkParser& parser)
+{
+    cppFormatter.Write("new soul::parsing::SpacingMarkParser()");
+}
+
+void CodeGeneratorVisitor::Visit(EnclosingMarkParser& parser)
+{
+    cppFormatter.Write("new soul::parsing::EnclosingMarkParser()");
+}
+
+void CodeGeneratorVisitor::Visit(NumberParser& parser)
+{
+    cppFormatter.Write("new soul::parsing::NumberParser()");
+}
+
+void CodeGeneratorVisitor::Visit(DecimalNumberParser& parser)
+{
+    cppFormatter.Write("new soul::parsing::DecimalNumberParser()");
+}
+
+void CodeGeneratorVisitor::Visit(LetterNumberParser& parser)
+{
+    cppFormatter.Write("new soul::parsing::LetterNumberParser()");
+}
+
+void CodeGeneratorVisitor::Visit(OtherNumberParser& parser)
+{
+    cppFormatter.Write("new soul::parsing::OtherNumberParser()");
+}
+
 void CodeGeneratorVisitor::Visit(PunctuationParser& parser)
 {
     cppFormatter.Write("new soul::parsing::PunctuationParser()");
 }
 
+void CodeGeneratorVisitor::Visit(ConnectorPunctuationParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::ConnectorPunctuationParser()");
+}
+
+void CodeGeneratorVisitor::Visit(DashPunctuationParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::DashPunctuationParser()");
+}
+
+void CodeGeneratorVisitor::Visit(OpenPunctuationParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::OpenPunctuationParser()");
+}
+
+void CodeGeneratorVisitor::Visit(ClosePunctuationParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::ClosePunctuationParser()");
+}
+
+void CodeGeneratorVisitor::Visit(InitialPunctuationParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::InitialPunctuationParser()");
+}
+
+void CodeGeneratorVisitor::Visit(FinalPunctuationParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::FinalPunctuationParser()");
+}
+
+void CodeGeneratorVisitor::Visit(OtherPunctuationParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::OtherPunctuationParser()");
+}
+
+void CodeGeneratorVisitor::Visit(SymbolParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::SymbolParser()");
+}
+
+void CodeGeneratorVisitor::Visit(MathSymbolParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::MathSymbolParser()");
+}
+
+void CodeGeneratorVisitor::Visit(CurrencySymbolParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::CurrencySymbolParser()");
+}
+
+void CodeGeneratorVisitor::Visit(ModifierSymbolParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::ModifierSymbolParser()");
+}
+
+void CodeGeneratorVisitor::Visit(OtherSymbolParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::OtherSymbolParser()");
+}
+
+void CodeGeneratorVisitor::Visit(SeparatorParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::SeparatorParser()");
+}
+
+void CodeGeneratorVisitor::Visit(SpaceSeparatorParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::SpaceSeparatorParser()");
+}
+
+void CodeGeneratorVisitor::Visit(LineSeparatorParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::LineSeparatorParser()");
+}
+
+void CodeGeneratorVisitor::Visit(ParagraphSeparatorParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::ParagraphSeparatorParser()");
+}
+
+void CodeGeneratorVisitor::Visit(OtherParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::OtherParser()");
+}
+
+void CodeGeneratorVisitor::Visit(ControlParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::ControlParser()");
+}
+
+void CodeGeneratorVisitor::Visit(FormatParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::FormatParser()");
+}
+
+void CodeGeneratorVisitor::Visit(SurrogateParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::SurrogateParser()");
+}
+
+void CodeGeneratorVisitor::Visit(PrivateUseParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::PrivateUseParser()");
+}
+
+void CodeGeneratorVisitor::Visit(UnassignedParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::UnassignedParser()");
+}
+
+void CodeGeneratorVisitor::Visit(GraphicParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::GraphicParser()");
+}
+
+void CodeGeneratorVisitor::Visit(BaseCharParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::BaseCharParser()");
+}
+
+void CodeGeneratorVisitor::Visit(AlphabeticParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::AlphabeticParser()");
+}
+
+void CodeGeneratorVisitor::Visit(IdStartParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::IdStartParser()");
+}
+
+void CodeGeneratorVisitor::Visit(IdContParser& parser) 
+{
+    cppFormatter.Write("new soul::parsing::IdContParser()");
+}
+
 void CodeGeneratorVisitor::Visit(AnyCharParser& parser)
 {
     cppFormatter.Write("new soul::parsing::AnyCharParser()");
-}
-
-void CodeGeneratorVisitor::Visit(RangeParser& parser)
-{
-    cppFormatter.Write("new soul::parsing::RangeParser(" + std::to_string(parser.Start()) + ", " + std::to_string(parser.End()) + ")");
 }
 
 void CodeGeneratorVisitor::Visit(NonterminalParser& parser)

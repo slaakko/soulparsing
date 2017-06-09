@@ -17,15 +17,15 @@ class LinkerVisitor : public Visitor
 {
 public:
     LinkerVisitor();
-    virtual void BeginVisit(Grammar& grammar);
-    virtual void EndVisit(Grammar& grammar);
-    virtual void Visit(RuleLink& link);
-    virtual void BeginVisit(Rule& rule);
-    virtual void EndVisit(Rule& rule);
-    virtual void BeginVisit(ActionParser& parser);
-    virtual void Visit(NonterminalParser& parser);
-    virtual void Visit(KeywordParser& parser);
-    virtual void Visit(KeywordListParser& parser);
+    void BeginVisit(Grammar& grammar) override;
+    void EndVisit(Grammar& grammar) override;
+    void Visit(RuleLink& link) override;
+    void BeginVisit(Rule& rule) override;
+    void EndVisit(Rule& rule) override;
+    void BeginVisit(ActionParser& parser) override;
+    void Visit(NonterminalParser& parser) override;
+    void Visit(KeywordParser& parser) override;
+    void Visit(KeywordListParser& parser) override;
 private:
     Grammar* currentGrammar;
     Rule* currentRule;

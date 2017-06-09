@@ -16,6 +16,7 @@ namespace soul { namespace syntax {
 
 using namespace soul::parsing;
 using namespace soul::util;
+using namespace soul::unicode;
 
 RuleGrammar* RuleGrammar::Create()
 {
@@ -294,8 +295,8 @@ void RuleGrammar::GetReferencedGrammars()
 void RuleGrammar::CreateRules()
 {
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("Identifier"), this, ToUtf32("ElementGrammar.Identifier")));
-    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("Alternative"), this, ToUtf32("CompositeGrammar.Alternative")));
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("Signature"), this, ToUtf32("ElementGrammar.Signature")));
+    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("Alternative"), this, ToUtf32("CompositeGrammar.Alternative")));
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("string"), this, ToUtf32("soul.parsing.stdlib.string")));
     AddRule(new RuleRule(ToUtf32("Rule"), GetScope(), GetParsingDomain()->GetNextRuleId(),
         new soul::parsing::SequenceParser(

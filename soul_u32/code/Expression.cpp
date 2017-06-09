@@ -22,6 +22,7 @@ using namespace soul::codedom;
 using soul::util::Trim;
 using namespace soul::parsing;
 using namespace soul::util;
+using namespace soul::unicode;
 
 ExpressionGrammar* ExpressionGrammar::Create()
 {
@@ -3330,16 +3331,16 @@ void ExpressionGrammar::GetReferencedGrammars()
         grammar1 = soul::code::LiteralGrammar::Create(pd);
     }
     AddGrammarReference(grammar1);
-    soul::parsing::Grammar* grammar2 = pd->GetGrammar(ToUtf32("soul.code.DeclaratorGrammar"));
+    soul::parsing::Grammar* grammar2 = pd->GetGrammar(ToUtf32("soul.code.DeclarationGrammar"));
     if (!grammar2)
     {
-        grammar2 = soul::code::DeclaratorGrammar::Create(pd);
+        grammar2 = soul::code::DeclarationGrammar::Create(pd);
     }
     AddGrammarReference(grammar2);
-    soul::parsing::Grammar* grammar3 = pd->GetGrammar(ToUtf32("soul.code.DeclarationGrammar"));
+    soul::parsing::Grammar* grammar3 = pd->GetGrammar(ToUtf32("soul.code.DeclaratorGrammar"));
     if (!grammar3)
     {
-        grammar3 = soul::code::DeclarationGrammar::Create(pd);
+        grammar3 = soul::code::DeclaratorGrammar::Create(pd);
     }
     AddGrammarReference(grammar3);
 }

@@ -19,6 +19,7 @@
 namespace soul { namespace parsing {
 
 using namespace soul::util;
+using namespace soul::unicode;
 
 LinkerVisitor::LinkerVisitor(): currentGrammar(0), currentRule(0)
 {

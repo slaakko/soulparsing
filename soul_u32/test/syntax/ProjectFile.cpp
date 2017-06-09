@@ -14,6 +14,7 @@ namespace soul { namespace syntax {
 
 using namespace soul::parsing;
 using namespace soul::util;
+using namespace soul::unicode;
 
 ProjectFileGrammar* ProjectFileGrammar::Create()
 {

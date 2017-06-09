@@ -22,6 +22,7 @@ namespace soul { namespace syntax {
 
 using namespace soul::parsing;
 using namespace soul::util;
+using namespace soul::unicode;
 using boost::filesystem::path;
 
 class NamespaceContent
@@ -201,6 +202,7 @@ void GenerateCode(ParserFileContent* parserFile)
         }
         cppFormatter.WriteLine("using namespace soul::parsing;");
         cppFormatter.WriteLine("using namespace soul::util;");
+        cppFormatter.WriteLine("using namespace soul::unicode;");
         cppFormatter.WriteLine();
         if (!content.Grammars().empty())
         {

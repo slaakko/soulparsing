@@ -10,12 +10,12 @@ namespace soul { namespace util {
 
 void Init()
 {
-    UnicodeInit();
+    soul::unicode::UnicodeInit();
 }
 
 void Done()
 {
-    UnicodeDone();
+    soul::unicode::UnicodeDone();
 }
 
 } } // namespace soul::util

@@ -11,6 +11,7 @@
 namespace soul { namespace parsing {
 
 using namespace soul::util;
+using namespace soul::unicode;
 
 std::vector<std::string> files;
 

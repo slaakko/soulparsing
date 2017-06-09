@@ -14,6 +14,7 @@ namespace soul { namespace syntax {
 
 using namespace soul::parsing;
 using namespace soul::util;
+using namespace soul::unicode;
 
 ProjectFileGrammar* ProjectFileGrammar::Create()
 {
@@ -361,8 +362,8 @@ void ProjectFileGrammar::GetReferencedGrammars()
 
 void ProjectFileGrammar::CreateRules()
 {
-    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("qualified_id"), this, ToUtf32("soul.parsing.stdlib.qualified_id")));
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("spaces_and_comments"), this, ToUtf32("soul.parsing.stdlib.spaces_and_comments")));
+    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("qualified_id"), this, ToUtf32("soul.parsing.stdlib.qualified_id")));
     AddRule(new ProjectFileRule(ToUtf32("ProjectFile"), GetScope(), GetParsingDomain()->GetNextRuleId(),
         new soul::parsing::SequenceParser(
             new soul::parsing::SequenceParser(

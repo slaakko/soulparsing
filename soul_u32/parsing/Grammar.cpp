@@ -17,6 +17,7 @@
 namespace soul { namespace parsing {
 
 using namespace soul::util;
+using namespace soul::unicode;
 
 Grammar::Grammar(const std::u32string& name_, Scope* enclosingScope_): ParsingObject(name_, enclosingScope_), parsingDomain(new ParsingDomain()), ns(nullptr),
     linking(false), linked(false), contentParser(nullptr), startRule(nullptr), skipRule(nullptr), log(0), maxLogLineLength(80)

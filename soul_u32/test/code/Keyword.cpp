@@ -14,6 +14,7 @@ namespace soul { namespace code {
 
 using namespace soul::parsing;
 using namespace soul::util;
+using namespace soul::unicode;
 
 KeywordGrammar* KeywordGrammar::Create()
 {

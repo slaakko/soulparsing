@@ -18,6 +18,8 @@
 namespace soul { namespace parsing {
 
 using namespace soul::util;
+using namespace soul::unicode;
+using namespace soul::unicode;
 
 AttrOrVariable::AttrOrVariable(const std::u32string& typeName_, const std::u32string& name_): typeName(typeName_), name(name_) 
 {

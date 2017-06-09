@@ -1,5 +1,5 @@
-#ifndef Composite_hpp_24857
-#define Composite_hpp_24857
+#ifndef Composite_hpp_13455
+#define Composite_hpp_13455
 
 #include <soul_u32/parsing/Grammar.hpp>
 #include <soul_u32/parsing/Keyword.hpp>
@@ -29,4 +29,4 @@ private:
 
 } } // namespace soul.syntax
 
-#endif // Composite_hpp_24857
+#endif // Composite_hpp_13455

@@ -25,7 +25,6 @@ void SetEnclosingScope(Scope* enclosingScope_)
 {
 }
 
-
 std::u32string ParsingObject::FullName() const
 {
     std::u32string scopeName = U"";

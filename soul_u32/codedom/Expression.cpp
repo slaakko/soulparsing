@@ -11,6 +11,7 @@
 namespace soul { namespace codedom {
 
 using namespace soul::util;
+using namespace soul::unicode;
 
 void PrintExprs(const std::vector<CppObject*>& expressions, CodeFormatter& formatter)
 {

@@ -15,6 +15,8 @@
 
 namespace soul { namespace util {
 
+using namespace soul::unicode;
+
 std::string Trim(const std::string& s)
 {
     int b = 0;

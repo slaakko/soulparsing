@@ -10,6 +10,7 @@
 namespace soul { namespace codedom {
 
 using namespace soul::util;
+using namespace soul::unicode;
 
 DeclSpecifier::DeclSpecifier(const std::u32string& name_): CppObject(name_) 
 {

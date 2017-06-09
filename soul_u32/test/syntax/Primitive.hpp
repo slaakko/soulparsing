@@ -1,5 +1,5 @@
-#ifndef Primitive_hpp_24857
-#define Primitive_hpp_24857
+#ifndef Primitive_hpp_13455
+#define Primitive_hpp_13455
 
 #include <soul_u32/parsing/Grammar.hpp>
 #include <soul_u32/parsing/Keyword.hpp>
@@ -28,17 +28,58 @@ private:
     class KeywordBodyRule;
     class KeywordListRule;
     class KeywordListBodyRule;
+    class RangeRule;
+    class CodePointRule;
     class EmptyRule;
     class SpaceRule;
     class AnyCharRule;
     class LetterRule;
     class DigitRule;
     class HexDigitRule;
+    class UpperLetterRule;
+    class LowerLetterRule;
+    class TitleLetterRule;
+    class ModifierLetterRule;
+    class OtherLetterRule;
+    class CasedLetterRule;
+    class MarkRule;
+    class NonspacingMarkRule;
+    class SpacingMarkRule;
+    class EnclosingMarkRule;
+    class NumberRule;
+    class DecimalNumberRule;
+    class LetterNumberRule;
+    class OtherNumberRule;
     class PunctuationRule;
-    class RangeRule;
-    class CodePointRule;
+    class ConnectorPunctuationRule;
+    class DashPunctuationRule;
+    class OpenPunctuationRule;
+    class ClosePunctuationRule;
+    class InitialPunctuationRule;
+    class FinalPunctuationRule;
+    class OtherPunctuationRule;
+    class SymbolRule;
+    class MathSymbolRule;
+    class CurrencySymbolRule;
+    class ModifierSymbolRule;
+    class OtherSymbolRule;
+    class SeparatorRule;
+    class SpaceSeparatorRule;
+    class LineSeparatorRule;
+    class ParagraphSeparatorRule;
+    class OtherRule;
+    class ControlRule;
+    class FormatRule;
+    class SurrogateRule;
+    class PrivateUseRule;
+    class UnassignedRule;
+    class GraphicRule;
+    class BaseCharRule;
+    class AlphabeticRule;
+    class IdStartRule;
+    class IdContRule;
 };
 
 } } // namespace soul.syntax
 
-#endif // Primitive_hpp_24857
+#endif // Primitive_hpp_13455

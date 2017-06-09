@@ -22,6 +22,7 @@ namespace soul { namespace syntax {
 using namespace soul::code;
 using namespace soul::parsing;
 using namespace soul::util;
+using namespace soul::unicode;
 
 PrimaryGrammar* PrimaryGrammar::Create()
 {
@@ -724,16 +725,16 @@ private:
 void PrimaryGrammar::GetReferencedGrammars()
 {
     soul::parsing::ParsingDomain* pd = GetParsingDomain();
-    soul::parsing::Grammar* grammar0 = pd->GetGrammar(ToUtf32("soul.syntax.PrimitiveGrammar"));
+    soul::parsing::Grammar* grammar0 = pd->GetGrammar(ToUtf32("soul.syntax.ElementGrammar"));
     if (!grammar0)
     {
-        grammar0 = soul::syntax::PrimitiveGrammar::Create(pd);
+        grammar0 = soul::syntax::ElementGrammar::Create(pd);
     }
     AddGrammarReference(grammar0);
-    soul::parsing::Grammar* grammar1 = pd->GetGrammar(ToUtf32("soul.syntax.ElementGrammar"));
+    soul::parsing::Grammar* grammar1 = pd->GetGrammar(ToUtf32("soul.syntax.PrimitiveGrammar"));
     if (!grammar1)
     {
-        grammar1 = soul::syntax::ElementGrammar::Create(pd);
+        grammar1 = soul::syntax::PrimitiveGrammar::Create(pd);
     }
     AddGrammarReference(grammar1);
     soul::parsing::Grammar* grammar2 = pd->GetGrammar(ToUtf32("soul.code.StatementGrammar"));
@@ -742,16 +743,16 @@ void PrimaryGrammar::GetReferencedGrammars()
         grammar2 = soul::code::StatementGrammar::Create(pd);
     }
     AddGrammarReference(grammar2);
-    soul::parsing::Grammar* grammar3 = pd->GetGrammar(ToUtf32("soul.syntax.CompositeGrammar"));
+    soul::parsing::Grammar* grammar3 = pd->GetGrammar(ToUtf32("soul.code.ExpressionGrammar"));
     if (!grammar3)
     {
-        grammar3 = soul::syntax::CompositeGrammar::Create(pd);
+        grammar3 = soul::code::ExpressionGrammar::Create(pd);
     }
     AddGrammarReference(grammar3);
-    soul::parsing::Grammar* grammar4 = pd->GetGrammar(ToUtf32("soul.code.ExpressionGrammar"));
+    soul::parsing::Grammar* grammar4 = pd->GetGrammar(ToUtf32("soul.syntax.CompositeGrammar"));
     if (!grammar4)
     {
-        grammar4 = soul::code::ExpressionGrammar::Create(pd);
+        grammar4 = soul::syntax::CompositeGrammar::Create(pd);
     }
     AddGrammarReference(grammar4);
 }
@@ -759,10 +760,10 @@ void PrimaryGrammar::GetReferencedGrammars()
 void PrimaryGrammar::CreateRules()
 {
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("Primitive"), this, ToUtf32("PrimitiveGrammar.Primitive")));
-    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("Identifier"), this, ToUtf32("ElementGrammar.Identifier")));
-    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("Alternative"), this, ToUtf32("CompositeGrammar.Alternative")));
-    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("ExpressionList"), this, ToUtf32("soul.code.ExpressionGrammar.ExpressionList")));
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("CompoundStatement"), this, ToUtf32("soul.code.StatementGrammar.CompoundStatement")));
+    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("Identifier"), this, ToUtf32("ElementGrammar.Identifier")));
+    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("ExpressionList"), this, ToUtf32("soul.code.ExpressionGrammar.ExpressionList")));
+    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("Alternative"), this, ToUtf32("CompositeGrammar.Alternative")));
     AddRule(new PrimaryRule(ToUtf32("Primary"), GetScope(), GetParsingDomain()->GetNextRuleId(),
         new soul::parsing::SequenceParser(
             new soul::parsing::SequenceParser(

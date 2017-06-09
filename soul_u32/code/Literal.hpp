@@ -1,5 +1,5 @@
-#ifndef Literal_hpp_22232
-#define Literal_hpp_22232
+#ifndef Literal_hpp_3838
+#define Literal_hpp_3838
 
 #include <soul_u32/parsing/Grammar.hpp>
 #include <soul_u32/parsing/Keyword.hpp>
@@ -29,4 +29,4 @@ private:
 
 } } // namespace soul.code
 
-#endif // Literal_hpp_22232
+#endif // Literal_hpp_3838

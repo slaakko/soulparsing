@@ -1,5 +1,5 @@
-#ifndef Rule_hpp_24860
-#define Rule_hpp_24860
+#ifndef Rule_hpp_13455
+#define Rule_hpp_13455
 
 #include <soul_u32/parsing/Grammar.hpp>
 #include <soul_u32/parsing/Keyword.hpp>
@@ -24,4 +24,4 @@ private:
 
 } } // namespace soul.syntax
 
-#endif // Rule_hpp_24860
+#endif // Rule_hpp_13455

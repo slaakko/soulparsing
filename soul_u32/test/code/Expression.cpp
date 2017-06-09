@@ -22,6 +22,7 @@ using namespace soul::codedom;
 using soul::util::Trim;
 using namespace soul::parsing;
 using namespace soul::util;
+using namespace soul::unicode;
 
 ExpressionGrammar* ExpressionGrammar::Create()
 {
@@ -3318,10 +3319,10 @@ private:
 void ExpressionGrammar::GetReferencedGrammars()
 {
     soul::parsing::ParsingDomain* pd = GetParsingDomain();
-    soul::parsing::Grammar* grammar0 = pd->GetGrammar(ToUtf32("soul.code.IdentifierGrammar"));
+    soul::parsing::Grammar* grammar0 = pd->GetGrammar(ToUtf32("soul.code.DeclaratorGrammar"));
     if (!grammar0)
     {
-        grammar0 = soul::code::IdentifierGrammar::Create(pd);
+        grammar0 = soul::code::DeclaratorGrammar::Create(pd);
     }
     AddGrammarReference(grammar0);
     soul::parsing::Grammar* grammar1 = pd->GetGrammar(ToUtf32("soul.code.LiteralGrammar"));
@@ -3330,10 +3331,10 @@ void ExpressionGrammar::GetReferencedGrammars()
         grammar1 = soul::code::LiteralGrammar::Create(pd);
     }
     AddGrammarReference(grammar1);
-    soul::parsing::Grammar* grammar2 = pd->GetGrammar(ToUtf32("soul.code.DeclaratorGrammar"));
+    soul::parsing::Grammar* grammar2 = pd->GetGrammar(ToUtf32("soul.code.IdentifierGrammar"));
     if (!grammar2)
     {
-        grammar2 = soul::code::DeclaratorGrammar::Create(pd);
+        grammar2 = soul::code::IdentifierGrammar::Create(pd);
     }
     AddGrammarReference(grammar2);
     soul::parsing::Grammar* grammar3 = pd->GetGrammar(ToUtf32("soul.code.DeclarationGrammar"));
@@ -3346,13 +3347,13 @@ void ExpressionGrammar::GetReferencedGrammars()
 
 void ExpressionGrammar::CreateRules()
 {
-    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("QualifiedId"), this, ToUtf32("IdentifierGrammar.QualifiedId")));
-    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("Literal"), this, ToUtf32("LiteralGrammar.Literal")));
-    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("TypeId"), this, ToUtf32("DeclaratorGrammar.TypeId")));
-    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("TypeSpecifierSeq"), this, ToUtf32("DeclaratorGrammar.TypeSpecifierSeq")));
-    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("SimpleTypeSpecifier"), this, ToUtf32("DeclarationGrammar.SimpleTypeSpecifier")));
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("PtrOperator"), this, ToUtf32("DeclaratorGrammar.PtrOperator")));
+    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("TypeId"), this, ToUtf32("DeclaratorGrammar.TypeId")));
+    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("Literal"), this, ToUtf32("LiteralGrammar.Literal")));
+    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("TypeSpecifierSeq"), this, ToUtf32("DeclaratorGrammar.TypeSpecifierSeq")));
+    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("QualifiedId"), this, ToUtf32("IdentifierGrammar.QualifiedId")));
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("TypeName"), this, ToUtf32("DeclarationGrammar.TypeName")));
+    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("SimpleTypeSpecifier"), this, ToUtf32("DeclarationGrammar.SimpleTypeSpecifier")));
     AddRule(new ExpressionRule(ToUtf32("Expression"), GetScope(), GetParsingDomain()->GetNextRuleId(),
         new soul::parsing::SequenceParser(
             new soul::parsing::ActionParser(ToUtf32("A0"),

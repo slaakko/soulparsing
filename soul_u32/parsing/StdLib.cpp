@@ -15,6 +15,7 @@ namespace soul { namespace parsing {
 
 using namespace soul::parsing;
 using namespace soul::util;
+using namespace soul::unicode;
 
 stdlib* stdlib::Create()
 {
@@ -425,10 +426,10 @@ private:
     };
 };
 
-class stdlib::numberRule : public soul::parsing::Rule
+class stdlib::numRule : public soul::parsing::Rule
 {
 public:
-    numberRule(const std::u32string& name_, Scope* enclosingScope_, int id_, Parser* definition_):
+    numRule(const std::u32string& name_, Scope* enclosingScope_, int id_, Parser* definition_):
         soul::parsing::Rule(name_, enclosingScope_, id_, definition_)
     {
         SetValueTypeName(ToUtf32("double"));
@@ -450,13 +451,13 @@ public:
     virtual void Link()
     {
         soul::parsing::ActionParser* a0ActionParser = GetAction(ToUtf32("A0"));
-        a0ActionParser->SetAction(new soul::parsing::MemberParsingAction<numberRule>(this, &numberRule::A0Action));
+        a0ActionParser->SetAction(new soul::parsing::MemberParsingAction<numRule>(this, &numRule::A0Action));
         soul::parsing::ActionParser* a1ActionParser = GetAction(ToUtf32("A1"));
-        a1ActionParser->SetAction(new soul::parsing::MemberParsingAction<numberRule>(this, &numberRule::A1Action));
+        a1ActionParser->SetAction(new soul::parsing::MemberParsingAction<numRule>(this, &numRule::A1Action));
         soul::parsing::NonterminalParser* rNonterminalParser = GetNonterminal(ToUtf32("r"));
-        rNonterminalParser->SetPostCall(new soul::parsing::MemberPostCall<numberRule>(this, &numberRule::Postr));
+        rNonterminalParser->SetPostCall(new soul::parsing::MemberPostCall<numRule>(this, &numRule::Postr));
         soul::parsing::NonterminalParser* iNonterminalParser = GetNonterminal(ToUtf32("i"));
-        iNonterminalParser->SetPostCall(new soul::parsing::MemberPostCall<numberRule>(this, &numberRule::Posti));
+        iNonterminalParser->SetPostCall(new soul::parsing::MemberPostCall<numRule>(this, &numRule::Posti));
     }
     void A0Action(const char32_t* matchBegin, const char32_t* matchEnd, const Span& span, const std::string& fileName, ParsingData* parsingData, bool& pass)
     {
@@ -1006,7 +1007,7 @@ void stdlib::CreateRules()
                     new soul::parsing::OptionalParser(
                         new soul::parsing::NonterminalParser(ToUtf32("sign"), ToUtf32("sign"), 0))),
                 new soul::parsing::NonterminalParser(ToUtf32("digit_sequence"), ToUtf32("digit_sequence"), 0)))));
-    AddRule(new numberRule(ToUtf32("number"), GetScope(), GetParsingDomain()->GetNextRuleId(),
+    AddRule(new numRule(ToUtf32("num"), GetScope(), GetParsingDomain()->GetNextRuleId(),
         new soul::parsing::AlternativeParser(
             new soul::parsing::ActionParser(ToUtf32("A0"),
                 new soul::parsing::NonterminalParser(ToUtf32("r"), ToUtf32("real"), 0)),
@@ -1022,15 +1023,9 @@ void stdlib::CreateRules()
         new soul::parsing::ActionParser(ToUtf32("A0"),
             new soul::parsing::TokenParser(
                 new soul::parsing::SequenceParser(
-                    new soul::parsing::AlternativeParser(
-                        new soul::parsing::LetterParser(),
-                        new soul::parsing::CharParser('_')),
+                    new soul::parsing::IdStartParser(),
                     new soul::parsing::KleeneStarParser(
-                        new soul::parsing::AlternativeParser(
-                            new soul::parsing::AlternativeParser(
-                                new soul::parsing::LetterParser(),
-                                new soul::parsing::DigitParser()),
-                            new soul::parsing::CharParser('_'))))))));
+                        new soul::parsing::IdContParser()))))));
     AddRule(new qualified_idRule(ToUtf32("qualified_id"), GetScope(), GetParsingDomain()->GetNextRuleId(),
         new soul::parsing::ActionParser(ToUtf32("A0"),
             new soul::parsing::TokenParser(

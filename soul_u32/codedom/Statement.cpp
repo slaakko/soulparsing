@@ -11,6 +11,7 @@
 namespace soul { namespace codedom {
 
 using namespace soul::util;
+using namespace soul::unicode;
 
 Statement::Statement(const std::u32string& name_): CppObject(name_)
 {

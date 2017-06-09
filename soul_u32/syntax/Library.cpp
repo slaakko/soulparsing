@@ -21,8 +21,9 @@
 
 namespace soul { namespace syntax {
 
-using namespace soul::util;
 using namespace soul::parsing;
+using namespace soul::util;
+using namespace soul::unicode;
 
 class LibraryFileGeneratorVisitor : public Visitor
 {

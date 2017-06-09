@@ -16,6 +16,7 @@ namespace soul { namespace syntax {
 
 using namespace soul::parsing;
 using namespace soul::util;
+using namespace soul::unicode;
 
 GrammarGrammar* GrammarGrammar::Create()
 {
@@ -330,16 +331,16 @@ void GrammarGrammar::GetReferencedGrammars()
         grammar0 = soul::syntax::ElementGrammar::Create(pd);
     }
     AddGrammarReference(grammar0);
-    soul::parsing::Grammar* grammar1 = pd->GetGrammar(ToUtf32("soul.syntax.RuleGrammar"));
+    soul::parsing::Grammar* grammar1 = pd->GetGrammar(ToUtf32("soul.parsing.stdlib"));
     if (!grammar1)
     {
-        grammar1 = soul::syntax::RuleGrammar::Create(pd);
+        grammar1 = soul::parsing::stdlib::Create(pd);
     }
     AddGrammarReference(grammar1);
-    soul::parsing::Grammar* grammar2 = pd->GetGrammar(ToUtf32("soul.parsing.stdlib"));
+    soul::parsing::Grammar* grammar2 = pd->GetGrammar(ToUtf32("soul.syntax.RuleGrammar"));
     if (!grammar2)
     {
-        grammar2 = soul::parsing::stdlib::Create(pd);
+        grammar2 = soul::syntax::RuleGrammar::Create(pd);
     }
     AddGrammarReference(grammar2);
 }
@@ -347,11 +348,11 @@ void GrammarGrammar::GetReferencedGrammars()
 void GrammarGrammar::CreateRules()
 {
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("Identifier"), this, ToUtf32("ElementGrammar.Identifier")));
-    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("QualifiedId"), this, ToUtf32("ElementGrammar.QualifiedId")));
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("Signature"), this, ToUtf32("ElementGrammar.Signature")));
+    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("QualifiedId"), this, ToUtf32("ElementGrammar.QualifiedId")));
+    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("char"), this, ToUtf32("soul.parsing.stdlib.char")));
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("RuleLink"), this, ToUtf32("ElementGrammar.RuleLink")));
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("Rule"), this, ToUtf32("RuleGrammar.Rule")));
-    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("char"), this, ToUtf32("soul.parsing.stdlib.char")));
     AddRule(new GrammarRule(ToUtf32("Grammar"), GetScope(), GetParsingDomain()->GetNextRuleId(),
         new soul::parsing::SequenceParser(
             new soul::parsing::SequenceParser(

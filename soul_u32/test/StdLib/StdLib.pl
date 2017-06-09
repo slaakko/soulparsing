@@ -22,7 +22,7 @@ namespace soul.parsing
         fractional_real;
         exponent_real;
         exponent_part;
-        number: double;
+        num: double;
         bool: bool;
         identifier: std::u32string;
         qualified_id: std::u32string;

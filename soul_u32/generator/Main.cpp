@@ -9,6 +9,7 @@
 #include <soul_u32/util/TextUtils.hpp>
 #include <soul_u32/util/Unicode.hpp>
 #include <soul_u32/util/InitDone.hpp>
+#include <boost/filesystem.hpp>
 #include <iostream>
 #include <string>
 #include <stdlib.h>
@@ -70,17 +71,18 @@ int main(int argc, const char** argv)
         }
         std::vector<std::string> projectFilePaths;
         std::vector<std::string> libraryDirectories;
-        std::string libraryPath;
-        const char* libraryPathEnv = getenv("SOUL_PARSING_LIBRARY_PATH");
-        if (libraryPathEnv)
+        std::string soul_u32_root;
+        const char* soul_u32_root_env = getenv("SOUL_U32_ROOT");
+        if (soul_u32_root_env)
         {
-            libraryPath = libraryPathEnv;
+            soul_u32_root = soul_u32_root_env;
         }
-        if (libraryPath.empty())
+        if (soul_u32_root.empty())
         {
-            std::cerr << "please set 'SOUL_PARSING_LIBRARY_PATH' environment variable to contain at least /path/to/soul_u32/parsing directory." << std::endl;
+            std::cerr << "please set 'SOUL_U32_ROOT' environment variable to contain /path/to/soul_u32 directory." << std::endl;
             return 2;
         }
+        std::string libraryPath = (boost::filesystem::path(soul_u32_root) / boost::filesystem::path("parsing")).generic_string();
         AddToLibraryDirectories(libraryPath, libraryDirectories);
         bool prevWasL = false;
         for (int i = 1; i < argc; ++i)

@@ -19,6 +19,7 @@ namespace soul { namespace syntax {
 
 using namespace soul::parsing;
 using namespace soul::util;
+using namespace soul::unicode;
 
 ParserFileGrammar* ParserFileGrammar::Create()
 {
@@ -539,16 +540,16 @@ void ParserFileGrammar::GetReferencedGrammars()
         grammar0 = soul::parsing::stdlib::Create(pd);
     }
     AddGrammarReference(grammar0);
-    soul::parsing::Grammar* grammar1 = pd->GetGrammar(ToUtf32("soul.syntax.GrammarGrammar"));
+    soul::parsing::Grammar* grammar1 = pd->GetGrammar(ToUtf32("soul.code.DeclarationGrammar"));
     if (!grammar1)
     {
-        grammar1 = soul::syntax::GrammarGrammar::Create(pd);
+        grammar1 = soul::code::DeclarationGrammar::Create(pd);
     }
     AddGrammarReference(grammar1);
-    soul::parsing::Grammar* grammar2 = pd->GetGrammar(ToUtf32("soul.code.DeclarationGrammar"));
+    soul::parsing::Grammar* grammar2 = pd->GetGrammar(ToUtf32("soul.syntax.GrammarGrammar"));
     if (!grammar2)
     {
-        grammar2 = soul::code::DeclarationGrammar::Create(pd);
+        grammar2 = soul::syntax::GrammarGrammar::Create(pd);
     }
     AddGrammarReference(grammar2);
 }
@@ -557,10 +558,10 @@ void ParserFileGrammar::CreateRules()
 {
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("spaces_and_comments"), this, ToUtf32("soul.parsing.stdlib.spaces_and_comments")));
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("newline"), this, ToUtf32("soul.parsing.stdlib.newline")));
+    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("NamespaceAliasDefinition"), this, ToUtf32("soul.code.DeclarationGrammar.NamespaceAliasDefinition")));
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("qualified_id"), this, ToUtf32("soul.parsing.stdlib.qualified_id")));
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("Grammar"), this, ToUtf32("GrammarGrammar.Grammar")));
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("UsingDeclaration"), this, ToUtf32("soul.code.DeclarationGrammar.UsingDeclaration")));
-    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("NamespaceAliasDefinition"), this, ToUtf32("soul.code.DeclarationGrammar.NamespaceAliasDefinition")));
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("UsingDirective"), this, ToUtf32("soul.code.DeclarationGrammar.UsingDirective")));
     AddRule(new ParserFileRule(ToUtf32("ParserFile"), GetScope(), GetParsingDomain()->GetNextRuleId(),
         new soul::parsing::SequenceParser(

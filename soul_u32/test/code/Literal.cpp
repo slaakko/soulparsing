@@ -15,6 +15,7 @@ namespace soul { namespace code {
 using namespace soul::codedom;
 using namespace soul::parsing;
 using namespace soul::util;
+using namespace soul::unicode;
 
 LiteralGrammar* LiteralGrammar::Create()
 {

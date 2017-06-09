@@ -17,6 +17,7 @@ namespace soul { namespace syntax {
 
 using namespace soul::parsing;
 using namespace soul::util;
+using namespace soul::unicode;
 
 ElementGrammar* ElementGrammar::Create()
 {
@@ -36,21 +37,62 @@ ElementGrammar* ElementGrammar::Create(soul::parsing::ParsingDomain* parsingDoma
 ElementGrammar::ElementGrammar(soul::parsing::ParsingDomain* parsingDomain_): soul::parsing::Grammar(ToUtf32("ElementGrammar"), parsingDomain_->GetNamespaceScope(ToUtf32("soul.syntax")), parsingDomain_)
 {
     SetOwner(0);
+    keywords0.push_back(ToUtf32("alphabetic"));
     keywords0.push_back(ToUtf32("anychar"));
+    keywords0.push_back(ToUtf32("basechar"));
+    keywords0.push_back(ToUtf32("cased_letter"));
+    keywords0.push_back(ToUtf32("close_punctuation"));
+    keywords0.push_back(ToUtf32("connector_punctuation"));
+    keywords0.push_back(ToUtf32("control"));
+    keywords0.push_back(ToUtf32("currency_symbol"));
+    keywords0.push_back(ToUtf32("dash_punctuation"));
+    keywords0.push_back(ToUtf32("decimal_number"));
     keywords0.push_back(ToUtf32("digit"));
     keywords0.push_back(ToUtf32("empty"));
+    keywords0.push_back(ToUtf32("enclosing_mark"));
     keywords0.push_back(ToUtf32("end"));
+    keywords0.push_back(ToUtf32("final_punctuation"));
+    keywords0.push_back(ToUtf32("format"));
     keywords0.push_back(ToUtf32("grammar"));
+    keywords0.push_back(ToUtf32("graphic"));
     keywords0.push_back(ToUtf32("hexdigit"));
+    keywords0.push_back(ToUtf32("idcont"));
+    keywords0.push_back(ToUtf32("idstart"));
+    keywords0.push_back(ToUtf32("initial_punctuation"));
     keywords0.push_back(ToUtf32("keyword"));
     keywords0.push_back(ToUtf32("keyword_list"));
     keywords0.push_back(ToUtf32("letter"));
+    keywords0.push_back(ToUtf32("letter_number"));
+    keywords0.push_back(ToUtf32("line_separator"));
+    keywords0.push_back(ToUtf32("lower_letter"));
+    keywords0.push_back(ToUtf32("mark"));
+    keywords0.push_back(ToUtf32("math_symbol"));
+    keywords0.push_back(ToUtf32("modifier_letter"));
+    keywords0.push_back(ToUtf32("modifier_symbol"));
+    keywords0.push_back(ToUtf32("nonspacing_mark"));
+    keywords0.push_back(ToUtf32("number"));
+    keywords0.push_back(ToUtf32("open_punctuation"));
+    keywords0.push_back(ToUtf32("other"));
+    keywords0.push_back(ToUtf32("other_letter"));
+    keywords0.push_back(ToUtf32("other_number"));
+    keywords0.push_back(ToUtf32("other_punctuation"));
+    keywords0.push_back(ToUtf32("other_symbol"));
+    keywords0.push_back(ToUtf32("paragraph_separator"));
+    keywords0.push_back(ToUtf32("private_use"));
     keywords0.push_back(ToUtf32("punctuation"));
     keywords0.push_back(ToUtf32("range"));
+    keywords0.push_back(ToUtf32("separator"));
     keywords0.push_back(ToUtf32("skip"));
     keywords0.push_back(ToUtf32("space"));
+    keywords0.push_back(ToUtf32("space_separator"));
+    keywords0.push_back(ToUtf32("spacing_mark"));
     keywords0.push_back(ToUtf32("start"));
+    keywords0.push_back(ToUtf32("surrogate"));
+    keywords0.push_back(ToUtf32("symbol"));
+    keywords0.push_back(ToUtf32("title_letter"));
     keywords0.push_back(ToUtf32("token"));
+    keywords0.push_back(ToUtf32("unassigned"));
+    keywords0.push_back(ToUtf32("upper_letter"));
     keywords0.push_back(ToUtf32("using"));
     keywords0.push_back(ToUtf32("var"));
 }
@@ -639,8 +681,8 @@ void ElementGrammar::CreateRules()
 {
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("qualified_id"), this, ToUtf32("soul.parsing.stdlib.qualified_id")));
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("identifier"), this, ToUtf32("soul.parsing.stdlib.identifier")));
-    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("string"), this, ToUtf32("soul.parsing.stdlib.string")));
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("Declarator"), this, ToUtf32("soul.code.DeclaratorGrammar.Declarator")));
+    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("string"), this, ToUtf32("soul.parsing.stdlib.string")));
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("TypeId"), this, ToUtf32("soul.code.DeclaratorGrammar.TypeId")));
     AddRule(new RuleLinkRule(ToUtf32("RuleLink"), GetScope(), GetParsingDomain()->GetNextRuleId(),
         new soul::parsing::AlternativeParser(

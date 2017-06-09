@@ -1,5 +1,5 @@
-#ifndef ProjectFile_hpp_24857
-#define ProjectFile_hpp_24857
+#ifndef ProjectFile_hpp_4488
+#define ProjectFile_hpp_4488
 
 #include <soul_u32/parsing/Grammar.hpp>
 #include <soul_u32/parsing/Keyword.hpp>
@@ -26,4 +26,4 @@ private:
 
 } } // namespace soul.syntax
 
-#endif // ProjectFile_hpp_24857
+#endif // ProjectFile_hpp_4488

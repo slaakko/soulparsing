@@ -20,6 +20,7 @@ using soul::util::Trim;
 using namespace soul::codedom;
 using namespace soul::parsing;
 using namespace soul::util;
+using namespace soul::unicode;
 
 DeclaratorGrammar* DeclaratorGrammar::Create()
 {
@@ -996,29 +997,29 @@ private:
 void DeclaratorGrammar::GetReferencedGrammars()
 {
     soul::parsing::ParsingDomain* pd = GetParsingDomain();
-    soul::parsing::Grammar* grammar0 = pd->GetGrammar(ToUtf32("soul.code.ExpressionGrammar"));
+    soul::parsing::Grammar* grammar0 = pd->GetGrammar(ToUtf32("soul.code.DeclarationGrammar"));
     if (!grammar0)
     {
-        grammar0 = soul::code::ExpressionGrammar::Create(pd);
+        grammar0 = soul::code::DeclarationGrammar::Create(pd);
     }
     AddGrammarReference(grammar0);
-    soul::parsing::Grammar* grammar1 = pd->GetGrammar(ToUtf32("soul.code.DeclarationGrammar"));
+    soul::parsing::Grammar* grammar1 = pd->GetGrammar(ToUtf32("soul.code.ExpressionGrammar"));
     if (!grammar1)
     {
-        grammar1 = soul::code::DeclarationGrammar::Create(pd);
+        grammar1 = soul::code::ExpressionGrammar::Create(pd);
     }
     AddGrammarReference(grammar1);
 }
 
 void DeclaratorGrammar::CreateRules()
 {
-    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("ConstantExpression"), this, ToUtf32("ExpressionGrammar.ConstantExpression")));
-    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("IdExpression"), this, ToUtf32("ExpressionGrammar.IdExpression")));
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("ExpressionList"), this, ToUtf32("ExpressionGrammar.ExpressionList")));
-    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("TypeName"), this, ToUtf32("DeclarationGrammar.TypeName")));
+    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("ConstantExpression"), this, ToUtf32("ExpressionGrammar.ConstantExpression")));
+    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("TypeSpecifier"), this, ToUtf32("DeclarationGrammar.TypeSpecifier")));
+    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("IdExpression"), this, ToUtf32("ExpressionGrammar.IdExpression")));
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("AssignmentExpression"), this, ToUtf32("ExpressionGrammar.AssignmentExpression")));
     AddRuleLink(new soul::parsing::RuleLink(ToUtf32("CVQualifier"), this, ToUtf32("DeclarationGrammar.CVQualifier")));
-    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("TypeSpecifier"), this, ToUtf32("DeclarationGrammar.TypeSpecifier")));
+    AddRuleLink(new soul::parsing::RuleLink(ToUtf32("TypeName"), this, ToUtf32("DeclarationGrammar.TypeName")));
     AddRule(new InitDeclaratorListRule(ToUtf32("InitDeclaratorList"), GetScope(), GetParsingDomain()->GetNextRuleId(),
         new soul::parsing::SequenceParser(
             new soul::parsing::ActionParser(ToUtf32("A0"),

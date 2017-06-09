@@ -1,5 +1,5 @@
-#ifndef StdLib_hpp_22702
-#define StdLib_hpp_22702
+#ifndef StdLib_hpp_13295
+#define StdLib_hpp_13295
 
 #include <soul_u32/parsing/Grammar.hpp>
 #include <soul_u32/parsing/Keyword.hpp>
@@ -25,7 +25,7 @@ private:
     class hex_literalRule;
     class realRule;
     class urealRule;
-    class numberRule;
+    class numRule;
     class boolRule;
     class identifierRule;
     class qualified_idRule;
@@ -36,4 +36,4 @@ private:
 
 } } // namespace soul.parsing
 
-#endif // StdLib_hpp_22702
+#endif // StdLib_hpp_13295

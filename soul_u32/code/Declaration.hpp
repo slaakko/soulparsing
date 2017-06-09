@@ -1,5 +1,5 @@
-#ifndef Declaration_hpp_22232
-#define Declaration_hpp_22232
+#ifndef Declaration_hpp_3838
+#define Declaration_hpp_3838
 
 #include <soul_u32/parsing/Grammar.hpp>
 #include <soul_u32/parsing/Keyword.hpp>
@@ -38,4 +38,4 @@ private:
 
 } } // namespace soul.code
 
-#endif // Declaration_hpp_22232
+#endif // Declaration_hpp_3838

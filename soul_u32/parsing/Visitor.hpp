@@ -17,9 +17,50 @@ class CharSetParser;
 class EmptyParser;
 class SpaceParser;
 class LetterParser;
+class UpperLetterParser;
+class LowerLetterParser;
+class TitleLetterParser;
+class ModifierLetterParser;
+class OtherLetterParser;
+class CasedLetterParser;
 class DigitParser;
 class HexDigitParser;
+class MarkParser;
+class NonspacingMarkParser;
+class SpacingMarkParser;
+class EnclosingMarkParser;
+class NumberParser;
+class DecimalNumberParser;
+class LetterNumberParser;
+class OtherNumberParser;
 class PunctuationParser;
+class ConnectorPunctuationParser;
+class DashPunctuationParser;
+class OpenPunctuationParser;
+class ClosePunctuationParser;
+class InitialPunctuationParser;
+class FinalPunctuationParser;
+class OtherPunctuationParser;
+class SymbolParser;
+class MathSymbolParser;
+class CurrencySymbolParser;
+class ModifierSymbolParser;
+class OtherSymbolParser;
+class SeparatorParser;
+class SpaceSeparatorParser;
+class LineSeparatorParser;
+class ParagraphSeparatorParser;
+class OtherParser;
+class ControlParser;
+class FormatParser;
+class SurrogateParser;
+class PrivateUseParser;
+class UnassignedParser;
+class GraphicParser;
+class BaseCharParser;
+class AlphabeticParser;
+class IdStartParser;
+class IdContParser;
 class AnyCharParser;
 class OptionalParser;
 class PositiveParser;
@@ -50,9 +91,50 @@ public:
     virtual void Visit(EmptyParser& parser) {}
     virtual void Visit(SpaceParser& parser) {}
     virtual void Visit(LetterParser& parser) {}
+    virtual void Visit(UpperLetterParser& parser) {}
+    virtual void Visit(LowerLetterParser& parser) {}
+    virtual void Visit(TitleLetterParser& parser) {}
+    virtual void Visit(ModifierLetterParser& parser) {}
+    virtual void Visit(OtherLetterParser& parser) {}
+    virtual void Visit(CasedLetterParser& parser) {}
     virtual void Visit(DigitParser& parser) {}
     virtual void Visit(HexDigitParser& parser) {}
+    virtual void Visit(MarkParser& parser) {}
+    virtual void Visit(NonspacingMarkParser& parser) {}
+    virtual void Visit(SpacingMarkParser& parser) {}
+    virtual void Visit(EnclosingMarkParser& parser) {}
+    virtual void Visit(NumberParser& parser) {}
+    virtual void Visit(DecimalNumberParser& parser) {}
+    virtual void Visit(LetterNumberParser& parser) {}
+    virtual void Visit(OtherNumberParser& parser) {}
     virtual void Visit(PunctuationParser& parser) {}
+    virtual void Visit(ConnectorPunctuationParser& parser) {}
+    virtual void Visit(DashPunctuationParser& parser) {}
+    virtual void Visit(OpenPunctuationParser& parser) {}
+    virtual void Visit(ClosePunctuationParser& parser) {}
+    virtual void Visit(InitialPunctuationParser& parser) {}
+    virtual void Visit(FinalPunctuationParser& parser) {}
+    virtual void Visit(OtherPunctuationParser& parser) {}
+    virtual void Visit(SymbolParser& parser) {}
+    virtual void Visit(MathSymbolParser& parser) {}
+    virtual void Visit(CurrencySymbolParser& parser) {}
+    virtual void Visit(ModifierSymbolParser& parser) {}
+    virtual void Visit(OtherSymbolParser& parser) {}
+    virtual void Visit(SeparatorParser& parser) {}
+    virtual void Visit(SpaceSeparatorParser& parser) {}
+    virtual void Visit(LineSeparatorParser& parser) {}
+    virtual void Visit(ParagraphSeparatorParser& parser) {}
+    virtual void Visit(OtherParser& parser) {}
+    virtual void Visit(ControlParser& parser) {}
+    virtual void Visit(FormatParser& parser) {}
+    virtual void Visit(SurrogateParser& parser) {}
+    virtual void Visit(PrivateUseParser& parser) {}
+    virtual void Visit(UnassignedParser& parser) {}
+    virtual void Visit(GraphicParser& parser) {}
+    virtual void Visit(BaseCharParser& parser) {}
+    virtual void Visit(AlphabeticParser& parser) {}
+    virtual void Visit(IdStartParser& parser) {}
+    virtual void Visit(IdContParser& parser) {}
     virtual void Visit(AnyCharParser& parser) {}
     virtual void Visit(RangeParser& parser) {}    
     virtual void BeginVisit(OptionalParser& parser) {}

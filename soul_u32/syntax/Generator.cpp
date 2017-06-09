@@ -21,6 +21,7 @@
 namespace soul { namespace syntax {
 
 using namespace soul::util;
+using namespace soul::unicode;
 using namespace boost::filesystem;
 
 std::string ResolveReferenceFilePath(const std::string& relativeReferenceFilePath, const std::string& projectBasePath, const std::vector<std::string>& libraryDirectories)

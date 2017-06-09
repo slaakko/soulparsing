@@ -1,5 +1,5 @@
-#ifndef ParserFile_hpp_24860
-#define ParserFile_hpp_24860
+#ifndef ParserFile_hpp_4488
+#define ParserFile_hpp_4488
 
 #include <soul_u32/parsing/Grammar.hpp>
 #include <soul_u32/parsing/Keyword.hpp>
@@ -28,4 +28,4 @@ private:
 
 } } // namespace soul.syntax
 
-#endif // ParserFile_hpp_24860
+#endif // ParserFile_hpp_4488

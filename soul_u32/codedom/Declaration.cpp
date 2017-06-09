@@ -12,6 +12,7 @@
 namespace soul { namespace codedom {
 
 using namespace soul::util;
+using namespace soul::unicode;
 
 AssignInit::AssignInit(CppObject* assignmentExpr_): CppObject(U"assignInit"), assignmentExpr(assignmentExpr_) 
 {
